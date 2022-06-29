@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+  <title>BS Store</title>
+  <style>
+      
+    /* Create two equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      height: 80px; /* Should be removed. Only for demonstration */
+    }
+
+    .nav-item-text-white{
+      float: right;
+    }
+    img {
+      float: left;
+      width:  50px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+   
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">BS Store </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="http://127.0.0.1:8000/buyer_product_view/">Home</a></li>        
+      </ul>
+
+
+      {% if Email_ID %}
+          <!-- in above condition Email_ID is return value from key saved in http session while user is logged in user_login page-->      
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Welcome, {{ Email_ID }}</a></li>        
+      </ul>
+      {% endif %}
+      <ul class="nav navbar-nav">
+        <li class="nav-item-text-white">
+          {% if 'email' in request.session %}
+          <!-- in above condition email is key which already saved in http session, so in each request key is verify then login otherwise logout-->
+            <a class="active" href="{% url 'user_logout' %}">Logout</a>
+          {% else %}
+            <a class="active" href="{% url 'user_login' %}">Login</a>
+          {% endif %}
+        </li>
+     </ul>
+
+    
+    </div>
+  </nav>
+
+  
+<div class="container">
+  
+    {% comment %} <div class="row">
+        <div class="column"><h2>User Data </h2></div>
+        <div class="column"><h4 align="right">
+          <form action="" method="post">
+          <a href="http://127.0.0.1:8000/blog" align="center"><img src="/static/add.png" align="center"  alt="Add Blog" style="width:50px;height:50px;"></a> </h4></div>
+          </form
+        </div>    {% endcomment %}
+  <!-- <h2>Educator-Course Data </h2> -->
+ 
+
+
+
+    <table class="table table-striped">
+        <tbody>
+            <tr> <th> <h3>Hi {{purchase_user_obj}}, Successufully Place your order </h3> </th> 
+            <tr> <td> Product: {{user_buy_product_name}} </td> </tr>
+            <tr> <td> Pay    : {{payable_amount}} </td> </tr>
+            <tr> <td>                            </td> </tr>
+            <tr> <td> Remaining Balance: {{balance}} </td> </tr>
+            
+
+        </tbody>
+
+    </table>
+
+</div>
+</body>
+</html>

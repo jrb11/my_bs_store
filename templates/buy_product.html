@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+  <title>BS Store</title>
+  <style>
+      
+    /* Create two equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 50%;
+      padding: 10px;
+      height: 80px; /* Should be removed. Only for demonstration */
+    }
+
+    .nav-item-text-white{
+      float: right;
+    }
+    img {
+      float: left;
+      width:  50px;
+      height: 80px;
+      object-fit: cover;
+    }
+    .al{
+      float: right;
+    }
+   
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">BS Store </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="http://127.0.0.1:8000/buyer_product_view/">Home</a></li>        
+      </ul>
+
+
+      {% if Email_ID %}
+          <!-- in above condition Email_ID is return value from key saved in http session while user is logged in user_login page-->      
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Welcome, {{ Email_ID }}</a></li>        
+      </ul>
+      {% endif %}
+      <ul class="nav navbar-nav">
+        <li class="nav-item-text-white">
+          {% if 'email' in request.session %}
+          <!-- in above condition email is key which already saved in http session, so in each request key is verify then login otherwise logout-->
+            <a class="active" href="{% url 'user_logout' %}">Logout</a>
+          {% else %}
+            <a class="active" href="{% url 'user_login' %}">Login</a>
+          {% endif %}
+        </li>
+     </ul>
+     <ul class="al nav nav-pills">
+      <li class="nav-link active"><a href="#">Balance: {{ login_user_balance.Balance }}</a></li> 
+     </ul>
+    
+    </div>
+  </nav>
+
+  
+<div class="container">
+  
+    {% comment %} <div class="row">
+        <div class="column"><h2>User Data </h2></div>
+        <div class="column"><h4 align="right">
+          <form action="" method="post">
+          <a href="http://127.0.0.1:8000/blog" align="center"><img src="/static/add.png" align="center"  alt="Add Blog" style="width:50px;height:50px;"></a> </h4></div>
+          </form
+        </div>    {% endcomment %}
+  <!-- <h2>Educator-Course Data </h2> -->
+ 
+   <form action="{% url 'user_purchase'%} " method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table class="table table-striped">
+        <tbody>
+            <th> <h3> Order Details </h3> </td> </th>
+            <tr> <td> Product Name </td> <td>{{buy_data.Product_Name}}</td> </tr>
+            <tr> <td> Product </td>      <td><img src="{{buy_data.Product_Image.url}}" alt="icon"/> </td> </tr>
+            <tr> <td> Quantity </td>     <td> {{quntity}} </td> </tr>
+            <tr> <td> Amount </td>       <td>{{price}}</td> </tr>
+            <tr> <td> Total Payable Amount </td> <td>{{total}}</td> </tr>
+            {% if login_user_balance.Balance >= total %} 
+            <tr> <td><input type="submit" value="Payment" style="background-color: #4CAF50;"> </td></tr>
+            {% endif %}
+
+            {% include 'messages.html' %}
+        </tbody>
+        
+    </table>
+ 
+  </form> 
+
+  {% comment %} <form action="#" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="table table-striped">
+        <tbody>
+            <th> <b> Order Details </b> </td> </th>
+            <tr> <td> Product Name </td> <td> <input type="text" name="created_by" value="{{ buy_data.Product_Name }}"></td> </tr>
+            <tr> <td> Product </td>      <td> <input type="file" name="image" value="{{buy_data.Product_Image.url}}" alt="icon"/> </td> </tr>
+            <tr> <td> Quantity </td>     <td> <input type="text" name="created_by" value="{{quntity}}"></td></td> </tr>
+            <tr> <td> Amount </td>       <td> <input type="text" name="created_by" value="{{total}}"> </td> </tr>
+            <tr> <td> <input type="submit" value="Payment" style="background-color: #4CAF50;"> </td> </tr>
+        </tbody>
+
+    </table>
+  </form> {% endcomment %}
+</div>
+</body>
+</html>
